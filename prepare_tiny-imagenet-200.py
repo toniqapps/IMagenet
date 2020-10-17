@@ -20,7 +20,7 @@ def unzip_data():
 	print("Extracted at: %s" % directory_to_extract_to)
 
 def format_val():
-	val_dir = "%s/tiny-imagenet-200/val" % os.getcwd()
+	val_dir = "%s/IMagenet/tiny-imagenet-200/val" % os.getcwd()
 	print("Formatting: %s" % val_dir)
 	val_annotations = "%s/val_annotations.txt" % val_dir
 	val_dict = {}
@@ -53,11 +53,11 @@ def format_val():
 	os.system("rm -rf %s" % val_images_dir)
 	print("Cleaning up: %s" % val_images_dir)
 	print("Formatting val done")
-
+ 
 def split_train_test():
 	split_quota = 0.7
 	print("Splitting Train+Val into %s-%s" % (split_quota*100, (1 - split_quota)*100))
-	base_dir = "%s/tiny-imagenet-200" % os.getcwd()
+	base_dir = "%s/IMagenet/tiny-imagenet-200" % os.getcwd()
 	train_dir = "%s/train" % base_dir
 	val_dir = "%s/val" % base_dir
 	fwnind = "%s/wnids.txt" % base_dir
@@ -130,9 +130,9 @@ def split_train_test():
 
 def main():
 	# download_dataset()
-	unzip_data()
-	format_val()
-	# split_train_test()
+	#unzip_data()
+	#format_val()
+	split_train_test()
 
 if __name__ == '__main__':
 	main()
