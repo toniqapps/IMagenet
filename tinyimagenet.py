@@ -131,7 +131,7 @@ def split_train_test():
 def main():
 	# download_dataset()
 	#unzip_data()
-	#format_val()
+	format_val()
 	split_train_test()
 
 if __name__ == '__main__':
