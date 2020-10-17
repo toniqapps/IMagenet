@@ -1,5 +1,6 @@
-from . import prepare_tiny-imagenet-200
+from . import tinyimagenet
 
+import torchvision
 from torchvision import datasets
 
 import albumentations as A
