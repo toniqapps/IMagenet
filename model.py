@@ -34,7 +34,7 @@ import torch.nn.functional as F
 class IMAGENET_RESNET_S12(nn.Module) :
 
     def __init__(self, block, num_blocks, num_classes=10):
-        super(IMAGENET_RESNET_S8, self).__init__()
+        super(IMAGENET_RESNET_S12, self).__init__()
         self.in_planes = 64
 
         self.conv1 = nn.Conv2d(3, 64, kernel_size=3,
