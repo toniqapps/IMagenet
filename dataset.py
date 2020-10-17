@@ -6,25 +6,35 @@ from torchvision import datasets
 import albumentations as A
 from albumentations.pytorch import ToTensorV2
 
+def albumentations_transforms(p=1.0, is_train=False):
+  # Mean and standard deviation of train dataset
+  mean = np.array([0.4914, 0.4822, 0.4465])
+  std = np.array([0.2023, 0.1994, 0.2010])
+  transforms_list = []
+
+  if is_train:
+    transforms_list.extend([
+                            A.RandomCrop(32, 32),
+                            A.HorizontalFlip(),
+                            A.Cutout (num_holes=1, max_h_size=8, max_w_size=8, fill_value=0.4733, always_apply=False, p=0.5)  
+                            ])
+  
+  
+  transforms_list.extend([
+                          A.Normalize(mean=mean, std=std, max_pixel_value=255.0, p=1.0),
+                          ToTensorV2()
+                          ])
+  data_transforms = A.Compose(transforms_list, p=p)
+  return lambda img: data_transforms(image=np.array(img))["image"]
+
 def tiny_imagenet_albumentations():
-    tinyimagenet.main()
-    AUGMENTATIONS_TRAIN = A.Compose([
-                                A.RandomCrop(32, 32),
-                                A.HorizontalFlip(),
-                                A.Cutout (num_holes=1, max_h_size=8, max_w_size=8, fill_value=0.4733, always_apply=False, p=0.5),
-                                A.Normalize(mean=(0.4914, 0.4822, 0.4465), std=(0.2023, 0.1994, 0.2010)),
-                                ToTensorV2()
-                                ])
-
-    AUGMENTATIONS_TEST = A.Compose([
-                                A.Normalize(mean=(0.4914, 0.4822, 0.4465), std=(0.2023, 0.1994, 0.2010)),
-                                ToTensorV2()
-                                ])
-
-    train_set = torchvision.datasets.ImageFolder(root='IMagenet/tiny-imagenet-200/new_train',
-			transform=AUGMENTATIONS_TRAIN)
-    test_set = torchvision.datasets.ImageFolder(root='IMagenet/tiny-imagenet-200/new_test',
-        transform=AUGMENTATIONS_TEST)
-		
-
-    return train_set, test_set
+  # tinyimagenet.main()
+  train_transform = albumentations_transforms(p=1.0, is_train=True)
+  test_transform = albumentations_transforms(p=1.0, is_train=False)
+  
+  train_set = torchvision.datasets.ImageFolder(root='IMagenet/tiny-imagenet-200/new_train',
+                                               transform=train_transform)
+  test_set = torchvision.datasets.ImageFolder(root='IMagenet/tiny-imagenet-200/new_test',
+                                              transform=test_transform)
+  
+  return train_set, test_set
