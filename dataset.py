@@ -28,14 +28,14 @@ def albumentations_transforms(is_train=False):
   data_transforms = A.Compose(transforms_list)
   return lambda img: data_transforms(image=np.array(img))["image"]
 
-def tiny_imagenet_albumentations():
+def tiny_imagenet_albumentations(root='IMagenet/tiny-imagenet-200/', root_train='new_train', root_test='new_test'):
   # tinyimagenet.main()
   train_transform = albumentations_transforms(is_train=True)
   test_transform = albumentations_transforms()
   
-  train_set = torchvision.datasets.ImageFolder(root='IMagenet/tiny-imagenet-200/new_train',
+  train_set = torchvision.datasets.ImageFolder(root=root + root_train,
                                                transform=train_transform)
-  test_set = torchvision.datasets.ImageFolder(root='IMagenet/tiny-imagenet-200/new_test',
+  test_set = torchvision.datasets.ImageFolder(root=root + root_test,
                                               transform=test_transform)
   
   return train_set, test_set
