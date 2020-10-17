@@ -15,7 +15,7 @@ def albumentations_transforms(is_train=False):
 
   if is_train:
     transforms_list.extend([
-                            A.RandomCrop(32, 32),
+                            A.RandomCrop(64, 64),
                             A.HorizontalFlip(),
                             A.Cutout (num_holes=1, max_h_size=8, max_w_size=8, fill_value=0.4733, always_apply=False, p=0.5)  
                             ])
