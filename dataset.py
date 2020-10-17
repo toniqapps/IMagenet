@@ -3,6 +3,7 @@ from . import tinyimagenet
 import torchvision
 from torchvision import datasets
 
+import numpy as np
 import albumentations as A
 from albumentations.pytorch import ToTensorV2
 
