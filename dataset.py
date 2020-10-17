@@ -7,6 +7,7 @@ import albumentations as A
 from albumentations.pytorch import ToTensorV2
 
 def tiny_imagenet_albumentations():
+    tinyimagenet.main()
     AUGMENTATIONS_TRAIN = A.Compose([
                                 A.RandomCrop(32, 32),
                                 A.HorizontalFlip(),
