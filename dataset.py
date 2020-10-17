@@ -6,7 +6,7 @@ from torchvision import datasets
 import albumentations as A
 from albumentations.pytorch import ToTensorV2
 
-def albumentations_transforms(p=1.0, is_train=False):
+def albumentations_transforms(is_train=False):
   # Mean and standard deviation of train dataset
   mean = np.array([0.4914, 0.4822, 0.4465])
   std = np.array([0.2023, 0.1994, 0.2010])
@@ -21,16 +21,16 @@ def albumentations_transforms(p=1.0, is_train=False):
   
   
   transforms_list.extend([
-                          A.Normalize(mean=mean, std=std, max_pixel_value=255.0, p=1.0),
+                          A.Normalize(mean=mean, std=std),
                           ToTensorV2()
                           ])
-  data_transforms = A.Compose(transforms_list, p=p)
+  data_transforms = A.Compose(transforms_list)
   return lambda img: data_transforms(image=np.array(img))["image"]
 
 def tiny_imagenet_albumentations():
   # tinyimagenet.main()
-  train_transform = albumentations_transforms(p=1.0, is_train=True)
-  test_transform = albumentations_transforms(p=1.0, is_train=False)
+  train_transform = albumentations_transforms(is_train=True)
+  test_transform = albumentations_transforms()
   
   train_set = torchvision.datasets.ImageFolder(root='IMagenet/tiny-imagenet-200/new_train',
                                                transform=train_transform)
