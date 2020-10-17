@@ -1,4 +1,9 @@
-from . import tiny-imagenet-200
+from . import prepare_tiny-imagenet-200
+
+from torchvision import datasets
+
+import albumentations as A
+from albumentations.pytorch import ToTensorV2
 
 def tiny_imagenet_albumentations():
     AUGMENTATIONS_TRAIN = A.Compose([
@@ -14,22 +19,10 @@ def tiny_imagenet_albumentations():
                                 ToTensorV2()
                                 ])
 
-    data_url = "https://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz"
-    img_size = 32
-    num_channels = 3
-    num_classes = 10
+    train_set = torchvision.datasets.ImageFolder(root='IMagenet/tiny-imagenet-200/new_train',
+			transform=AUGMENTATIONS_TRAIN)
+    test_set = torchvision.datasets.ImageFolder(root='IMagenet/tiny-imagenet-200/new_test',
+        transform=AUGMENTATIONS_TEST)
+		
 
-    cifar10DataMgr = datasetmgr.DatasetManager(data_url, "cifar-10-data", "cifar-10-batches-py", img_size, num_channels, num_classes)
-
-    # Download and extract CIFAR-10 data
-    cifar10DataMgr.maybe_download_and_extract()
-
-    # training data
-    x_train, y_train = cifar10DataMgr.load_training_data()
-    train = CIFAR10Sequence(x_train, y_train, transform=AUGMENTATIONS_TRAIN)
-
-    # Validation data
-    x_val, y_val = cifar10DataMgr.load_validation_data(5000)
-    test = CIFAR10Sequence(x_val, y_val, transform=AUGMENTATIONS_TEST)
-
-    return train, test
+    return train_set, test_set
