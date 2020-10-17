@@ -133,6 +133,3 @@ def main():
 	#unzip_data()
 	format_val()
 	split_train_test()
-
-if __name__ == '__main__':
-	main()
